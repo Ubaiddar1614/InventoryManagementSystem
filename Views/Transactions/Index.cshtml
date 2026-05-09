@@ -58,6 +58,13 @@
                 <a asp-action="Edit" asp-route-id="@item.TransactionId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.TransactionId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.TransactionId">Delete</a>
+                    @if (item.TransactionType == "Out")
+                    {
+                        <form asp-controller="Checkout" asp-action="CreateCheckoutSession" method="POST" class="d-inline">
+                            <input type="hidden" name="transactionId" value="@item.TransactionId" />
+                            <button type="submit" class="btn btn-sm btn-success ms-2">Pay via Stripe</button>
+                        </form>
+                    }
             </td>
         </tr>
 }

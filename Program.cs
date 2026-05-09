@@ -1,11 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using InventoryManagementSystem.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Wake up Stripe and give it the secret key from User Secrets
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("StripeSettings:SecretKey").Get<string>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 // Add Cookie Authentication
