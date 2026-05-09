@@ -18,17 +18,14 @@ namespace InventoryManagementSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCheckoutSession(int transactionId)
         {
-            // 1. Find the transaction and include the Product details
             var transaction = await _context.Transactions
                 .Include(t => t.Product)
                 .FirstOrDefaultAsync(t => t.TransactionId == transactionId);
 
             if (transaction == null) return NotFound();
 
-            // IMPORTANT: Make sure this matches your exact localhost port from your browser!
             var domain = "https://localhost:7198";
 
-            // 2. Build the Stripe Invoice
             var options = new SessionCreateOptions
             {
                 PaymentMethodTypes = new List<string> { "card" },
@@ -38,27 +35,23 @@ namespace InventoryManagementSystem.Controllers
                     {
                         PriceData = new SessionLineItemPriceDataOptions
                         {
-                            // Stripe does all math in CENTS. So $50.00 = 5000. 
-                            // We multiply your price by 100 to convert it.
                             UnitAmount = (long)(transaction.Product.Price * 100),
-                            Currency = "usd", // Or "pkr" if Stripe supports it in your test region!
+                            Currency = "usd",
                             ProductData = new SessionLineItemPriceDataProductDataOptions
                             {
                                 Name = transaction.Product.Name,
                                 Description = $"Transaction ID: {transaction.TransactionId}"
                             },
                         },
-                        // We pass the exact quantity from your database
                         Quantity = transaction.Quantity,
                     },
                 },
                 Mode = "payment",
-                // Where Stripe sends the user after they pay (or cancel)
-                SuccessUrl = domain + "/Checkout/Success?session_id={CHECKOUT_SESSION_ID}",
+                // Notice this line! We are passing the transactionId back to our Success page
+                SuccessUrl = domain + $"/Checkout/Success?session_id={{CHECKOUT_SESSION_ID}}&transactionId={transaction.TransactionId}",
                 CancelUrl = domain + "/Checkout/Cancel",
             };
 
-            // 3. Generate the secure URL and Redirect the user
             var service = new SessionService();
             Session session = service.Create(options);
 
@@ -67,11 +60,19 @@ namespace InventoryManagementSystem.Controllers
         }
 
         // GET: /Checkout/Success
-        public IActionResult Success(string session_id)
+        public async Task<IActionResult> Success(string session_id, int transactionId)
         {
-            // If you wanted to be super advanced, you would verify the session_id here 
-            // and mark the transaction as "Paid" in your DB. 
-            // For now, we just show a success screen!
+            // 1. Find the transaction that Stripe just successfully processed
+            var transaction = await _context.Transactions.FindAsync(transactionId);
+
+            if (transaction != null)
+            {
+                // 2. Flip the switch in the database!
+                transaction.PaymentStatus = "Paid";
+                _context.Update(transaction);
+                await _context.SaveChangesAsync();
+            }
+
             return View();
         }
 

@@ -17,6 +17,9 @@ public partial class Transaction
 
     public DateTime? TransactionDate { get; set; }
 
+
+    public string? PaymentStatus { get; set; } = "Pending";
+
     public int? UserId { get; set; }
 
     public virtual Product Product { get; set; } = null!;
