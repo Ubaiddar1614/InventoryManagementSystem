@@ -3,45 +3,91 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - InventoryManagementSystem</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - InventoryPro</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/InventoryManagementSystem.styles.css" asp-append-version="true" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+            body {
+                font-family: 'Inter', sans-serif;
+                background-color: #f8f9fa;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+            .navbar {
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1); =
+            }
+            .nav-link { font-weight: 500; letter-spacing: 0.3px; }
+            .nav-link:hover { color: #f8f9fa !important; opacity: 0.8; }
+            main { flex: 1; } =
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">InventoryManagementSystem</a>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom mb-4 sticky-top">
+            <div class="container-fluid px-4">
+                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
+                    📦 InventoryPro
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                    <ul class="navbar-nav flex-grow-1 ms-3">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white-50" asp-area="" asp-controller="Home" asp-action="Index">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white-50" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white-50" asp-area="" asp-controller="Suppliers" asp-action="Index">Suppliers</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white-50" asp-area="" asp-controller="Transactions" asp-action="Index">Transactions</a>
+                            </li>
+                        }
+                    </ul>
+                    
+                    <ul class="navbar-nav">
+                        @* Dynamic Login/Logout buttons on the far right *@
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item d-flex align-items-center">
+                                <span class="text-light me-3 small">Hello, <strong>@User.Identity.Name</strong>!</span>
+                                <a class="btn btn-outline-light btn-sm rounded-pill px-3" asp-controller="Account" asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="btn btn-primary btn-sm rounded-pill px-4" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+    
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - InventoryManagementSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="border-top footer text-muted bg-white mt-auto py-3 shadow-sm">
+        <div class="container text-center small">
+            &copy; @DateTime.Now.Year - InventoryPro - Built by Maheen & Ubaid🚀
         </div>
     </footer>
+    
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
