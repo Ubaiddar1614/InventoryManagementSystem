@@ -122,6 +122,12 @@ tbody tr:hover {
     color: #ffffff !important;
 }
 
+/* Fix for dropdown options rendering white-on-white in Windows/Chrome */
+.form-control option, .form-select option {
+    background-color: #1f2833 !important;
+    color: #ffffff !important;
+}
+
 .form-control:focus, .form-select:focus {
     background-color: rgba(255, 255, 255, 0.15) !important;
     border-color: #00d2ff;
