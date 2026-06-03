@@ -27,7 +27,7 @@ namespace InventoryManagementSystem.Controllers
                 .SumAsync(p => p.Price * p.StockQuantity);
 
             var totalSalesRevenue = await _context.Transactions
-                .Where(t => t.TransactionType == "Out")
+                .Where(t => t.TransactionType.ToLower() == "out")
                 .SumAsync(t => t.TotalAmount);
 
             var dashboardData = new DashboardViewModel

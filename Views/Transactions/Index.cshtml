@@ -1,4 +1,4 @@
-﻿@model IEnumerable<InventoryManagementSystem.Models.Transaction>
+@model IEnumerable<InventoryManagementSystem.Models.Transaction>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,57 +10,61 @@
     <a asp-action="Create">Create New</a>
 </p>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.TransactionType)</th>
-            <th>@Html.DisplayNameFor(model => model.Quantity)</th>
-            <th>@Html.DisplayNameFor(model => model.TotalAmount)</th>
-            <th>@Html.DisplayNameFor(model => model.TransactionDate)</th>
-            <th>Product</th>
-            <th>User</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div class="table-responsive">
+    <table class="table table-hover table-borderless align-middle shadow-sm bg-white rounded" style="overflow: hidden;">
+        <thead class="table-light">
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.TransactionType)</td>
-                <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
-                <td>@Html.DisplayFor(modelItem => item.TotalAmount)</td>
-                <td>@Html.DisplayFor(modelItem => item.TransactionDate)</td>
-                <td>@Html.DisplayFor(modelItem => item.Product.Name)</td>
-                <td>@Html.DisplayFor(modelItem => item.User.Username)</td>
-                <td>
-                    @if (item.TransactionType?.ToLower() == "in")
-                    {
-                        <span class="badge bg-secondary text-white">Restock</span>
-                    }
-                    else if (item.PaymentStatus == "Paid")
-                    {
-                        <span class="badge bg-success text-white">PAID ✓</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-warning text-dark">@item.PaymentStatus</span>
-                    }
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.TransactionId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.TransactionId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.TransactionId">Delete</a>
-]
-                    @if (item.TransactionType?.ToLower() == "out" && item.PaymentStatus != "Paid")
-                    {
-                        <form asp-controller="Checkout" asp-action="CreateCheckoutSession" method="POST" class="d-inline">
-                            <input type="hidden" name="transactionId" value="@item.TransactionId" />
-                            <button type="submit" class="btn btn-sm btn-success ms-2">Pay via Stripe</button>
-                        </form>
-                    }
-                </td>
+                <th>@Html.DisplayNameFor(model => model.TransactionType)</th>
+                <th>@Html.DisplayNameFor(model => model.Quantity)</th>
+                <th>@Html.DisplayNameFor(model => model.TotalAmount)</th>
+                <th>@Html.DisplayNameFor(model => model.TransactionDate)</th>
+                <th>Product</th>
+                <th>User</th>
+                <th>Status</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.TransactionType)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TotalAmount)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TransactionDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Product.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.User.Username)</td>
+                    <td>
+                        @if (item.TransactionType?.ToLower() == "in")
+                        {
+                            <span class="badge bg-secondary text-white">Restock</span>
+                        }
+                        else if (item.PaymentStatus == "Paid")
+                        {
+                            <span class="badge bg-success text-white">PAID ✓</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning text-dark">@item.PaymentStatus</span>
+                        }
+                    </td>
+                    <td>
+                        <div class="d-flex gap-2 align-items-center">
+                            <a asp-action="Edit" asp-route-id="@item.TransactionId" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.TransactionId" class="btn btn-sm btn-outline-info">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.TransactionId" class="btn btn-sm btn-outline-danger">Delete</a>
+
+                            @if (item.TransactionType?.ToLower() == "out" && item.PaymentStatus != "Paid")
+                            {
+                                <form asp-controller="Checkout" asp-action="CreateCheckoutSession" method="POST" class="d-inline mb-0">
+                                    <input type="hidden" name="transactionId" value="@item.TransactionId" />
+                                    <button type="submit" class="btn btn-sm btn-success">Pay via Stripe</button>
+                                </form>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

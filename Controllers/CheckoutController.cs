@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
 using InventoryManagementSystem.Data;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +24,7 @@ namespace InventoryManagementSystem.Controllers
 
             if (transaction == null) return NotFound();
 
-            var domain = "https://localhost:7198";
+            var domain = $"{Request.Scheme}://{Request.Host}";
 
             var options = new SessionCreateOptions
             {

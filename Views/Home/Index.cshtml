@@ -1,4 +1,4 @@
-﻿@model InventoryManagementSystem.Models.DashboardViewModel
+@model InventoryManagementSystem.Models.DashboardViewModel
 
 @{
     ViewData["Title"] = "Dashboard";
@@ -12,40 +12,40 @@
 <div class="row">
     <!-- Total Products Card -->
     <div class="col-md-3 mb-4">
-        <div class="card shadow-sm text-center">
-            <div class="card-header bg-primary text-white">Total Products</div>
-            <div class="card-body">
-                <h2 class="card-title">@Model.TotalProducts</h2>
+        <div class="card shadow-sm border-0 h-100 metric-card" style="border-radius: 12px; transition: all 0.3s ease;">
+            <div class="card-body text-center p-4">
+                <h6 class="text-muted text-uppercase fw-bold mb-3" style="letter-spacing: 1px;">Total Products</h6>
+                <h2 class="display-5 fw-bold text-primary mb-0">@Model.TotalProducts</h2>
             </div>
         </div>
     </div>
 
     <!-- Low Stock Card -->
     <div class="col-md-3 mb-4">
-        <div class="card shadow-sm text-center">
-            <div class="card-header bg-danger text-white">Low Stock Alerts</div>
-            <div class="card-body">
-                <h2 class="card-title">@Model.LowStockItems</h2>
+        <div class="card shadow-sm border-0 h-100 metric-card" style="border-radius: 12px; transition: all 0.3s ease;">
+            <div class="card-body text-center p-4">
+                <h6 class="text-muted text-uppercase fw-bold mb-3" style="letter-spacing: 1px;">Low Stock Alerts</h6>
+                <h2 class="display-5 fw-bold text-warning mb-0">@Model.LowStockItems</h2>
             </div>
         </div>
     </div>
 
     <!-- Inventory Value Card -->
     <div class="col-md-3 mb-4">
-        <div class="card shadow-sm text-center">
-            <div class="card-header bg-success text-white">Inventory Value</div>
-            <div class="card-body">
-                <h2 class="card-title">$@Model.TotalInventoryValue.ToString("N2")</h2>
+        <div class="card shadow-sm border-0 h-100 metric-card" style="border-radius: 12px; transition: all 0.3s ease;">
+            <div class="card-body text-center p-4">
+                <h6 class="text-muted text-uppercase fw-bold mb-3" style="letter-spacing: 1px;">Inventory Value</h6>
+                <h2 class="display-5 fw-bold text-success mb-0">$@Model.TotalInventoryValue.ToString("N2")</h2>
             </div>
         </div>
     </div>
 
     <!-- Total Revenue Card -->
     <div class="col-md-3 mb-4">
-        <div class="card shadow-sm text-center">
-            <div class="card-header bg-info text-white">Total Sales</div>
-            <div class="card-body">
-                <h2 class="card-title">$@Model.TotalSalesRevenue.ToString("N2")</h2>
+        <div class="card shadow-sm border-0 h-100 metric-card" style="border-radius: 12px; transition: all 0.3s ease;">
+            <div class="card-body text-center p-4">
+                <h6 class="text-muted text-uppercase fw-bold mb-3" style="letter-spacing: 1px;">Total Sales</h6>
+                <h2 class="display-5 fw-bold text-info mb-0">$@Model.TotalSalesRevenue.ToString("N2")</h2>
             </div>
         </div>
     </div>

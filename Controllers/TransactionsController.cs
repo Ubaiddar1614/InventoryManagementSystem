@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -78,7 +78,7 @@ namespace InventoryManagementSystem.Controllers
                 }
 
                 // 3. Stock Logic
-                if (transaction.TransactionType == "Out")
+                if (transaction.TransactionType?.ToLower() == "out")
                 {
                     if (transaction.Quantity > product.StockQuantity)
                     {
@@ -88,7 +88,7 @@ namespace InventoryManagementSystem.Controllers
                     }
                     product.StockQuantity -= transaction.Quantity;
                 }
-                else if (transaction.TransactionType == "In")
+                else if (transaction.TransactionType?.ToLower() == "in")
                 {
                     product.StockQuantity += transaction.Quantity;
                 }
@@ -138,12 +138,12 @@ namespace InventoryManagementSystem.Controllers
                     var product = await _context.Products.FindAsync(originalTransaction.ProductId);
                     if (product != null)
                     {
-                        if (originalTransaction.TransactionType == "Out") product.StockQuantity += originalTransaction.Quantity;
-                        else if (originalTransaction.TransactionType == "In") product.StockQuantity -= originalTransaction.Quantity;
+                        if (originalTransaction.TransactionType?.ToLower() == "out") product.StockQuantity += originalTransaction.Quantity;
+                        else if (originalTransaction.TransactionType?.ToLower() == "in") product.StockQuantity -= originalTransaction.Quantity;
                     }
 
                     // Apply new math
-                    if (transaction.TransactionType == "Out")
+                    if (transaction.TransactionType?.ToLower() == "out")
                     {
                         if (transaction.Quantity > product.StockQuantity)
                         {
@@ -153,7 +153,7 @@ namespace InventoryManagementSystem.Controllers
                         }
                         product.StockQuantity -= transaction.Quantity;
                     }
-                    else if (transaction.TransactionType == "In")
+                    else if (transaction.TransactionType?.ToLower() == "in")
                     {
                         product.StockQuantity += transaction.Quantity;
                     }
@@ -207,8 +207,8 @@ namespace InventoryManagementSystem.Controllers
 
                 if (product != null)
                 {
-                    if (transaction.TransactionType == "Out") product.StockQuantity += transaction.Quantity;
-                    else if (transaction.TransactionType == "In") product.StockQuantity -= transaction.Quantity;
+                    if (transaction.TransactionType?.ToLower() == "out") product.StockQuantity += transaction.Quantity;
+                    else if (transaction.TransactionType?.ToLower() == "in") product.StockQuantity -= transaction.Quantity;
 
                     _context.Update(product);
                 }
