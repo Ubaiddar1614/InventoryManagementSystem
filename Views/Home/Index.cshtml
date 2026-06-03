@@ -12,7 +12,7 @@
 <div class="row">
     <!-- Total Products Card -->
     <div class="col-md-3 mb-4">
-        <div class="card shadow-sm border-0 h-100 metric-card" style="border-radius: 12px; transition: all 0.3s ease;">
+        <div class="card shadow-sm border-0 h-100 metric-card metric-card-inventory">
             <div class="card-body text-center p-4">
                 <h6 class="text-muted text-uppercase fw-bold mb-3" style="letter-spacing: 1px;">Total Products</h6>
                 <h2 class="display-5 fw-bold text-primary mb-0">@Model.TotalProducts</h2>
@@ -22,7 +22,7 @@
 
     <!-- Low Stock Card -->
     <div class="col-md-3 mb-4">
-        <div class="card shadow-sm border-0 h-100 metric-card" style="border-radius: 12px; transition: all 0.3s ease;">
+        <div class="card shadow-sm border-0 h-100 metric-card metric-card-lowstock">
             <div class="card-body text-center p-4">
                 <h6 class="text-muted text-uppercase fw-bold mb-3" style="letter-spacing: 1px;">Low Stock Alerts</h6>
                 <h2 class="display-5 fw-bold text-warning mb-0">@Model.LowStockItems</h2>
@@ -32,7 +32,7 @@
 
     <!-- Inventory Value Card -->
     <div class="col-md-3 mb-4">
-        <div class="card shadow-sm border-0 h-100 metric-card" style="border-radius: 12px; transition: all 0.3s ease;">
+        <div class="card shadow-sm border-0 h-100 metric-card metric-card-value">
             <div class="card-body text-center p-4">
                 <h6 class="text-muted text-uppercase fw-bold mb-3" style="letter-spacing: 1px;">Inventory Value</h6>
                 <h2 class="display-5 fw-bold text-success mb-0">$@Model.TotalInventoryValue.ToString("N2")</h2>
@@ -42,7 +42,7 @@
 
     <!-- Total Revenue Card -->
     <div class="col-md-3 mb-4">
-        <div class="card shadow-sm border-0 h-100 metric-card" style="border-radius: 12px; transition: all 0.3s ease;">
+        <div class="card shadow-sm border-0 h-100 metric-card metric-card-revenue">
             <div class="card-body text-center p-4">
                 <h6 class="text-muted text-uppercase fw-bold mb-3" style="letter-spacing: 1px;">Total Sales</h6>
                 <h2 class="display-5 fw-bold text-info mb-0">$@Model.TotalSalesRevenue.ToString("N2")</h2>
@@ -50,3 +50,129 @@
         </div>
     </div>
 </div>
+
+<!-- Chart Container -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4 p-md-5">
+                <h4 class="fw-bold mb-4">30-Day Revenue vs. Restock Trends</h4>
+                <div style="height: 400px;">
+                    <canvas id="dashboardChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var ctx = document.getElementById('dashboardChart').getContext('2d');
+            
+            // Mock data for 4 weeks
+            var labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
+            var revenueData = [12000, 19000, 15000, 22000];
+            var restockData = [8000, 10000, 7000, 12000];
+
+            var dashboardChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Sales Revenue',
+                            data: revenueData,
+                            borderColor: '#28a745',
+                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true,
+                            pointBackgroundColor: '#ffffff',
+                            pointBorderColor: '#28a745',
+                            pointBorderWidth: 2,
+                            pointRadius: 4
+                        },
+                        {
+                            label: 'Restock Costs',
+                            data: restockData,
+                            borderColor: '#6c757d',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            tension: 0.4,
+                            fill: false,
+                            pointBackgroundColor: '#ffffff',
+                            pointBorderColor: '#6c757d',
+                            pointBorderWidth: 2,
+                            pointRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    family: "'Inter', sans-serif",
+                                    size: 14
+                                },
+                                color: '#e0e6ed',
+                                usePointStyle: true,
+                                boxWidth: 8
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: 'rgba(255,255,255,0.1)',
+                            titleColor: '#fff',
+                            bodyColor: '#e0e6ed',
+                            borderColor: 'rgba(255,255,255,0.2)',
+                            borderWidth: 1,
+                            titleFont: { family: "'Inter', sans-serif", size: 13 },
+                            bodyFont: { family: "'Inter', sans-serif", size: 13 },
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: true
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255,255,255,0.05)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#9ba4b5',
+                                font: { family: "'Inter', sans-serif" },
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#9ba4b5',
+                                font: { family: "'Inter', sans-serif" }
+                            }
+                        }
+                    },
+                    interaction: {
+                        mode: 'nearest',
+                        axis: 'x',
+                        intersect: false
+                    }
+                }
+            });
+        });
+    </script>
+}

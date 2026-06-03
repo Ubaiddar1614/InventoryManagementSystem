@@ -8,8 +8,8 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.25rem rgba(0, 210, 255, 0.25);
 }
 
 html {
@@ -32,33 +32,108 @@ body {
   text-align: start;
 }
 
-/* Premium UI Overhaul Additions */
+/* Premium Vibrant Glassmorphism Theme (Picasso Edition) */
+body {
+    background: linear-gradient(135deg, #0b0c10 0%, #1f2833 100%) !important;
+    background-attachment: fixed !important;
+    color: #e0e6ed !important;
+}
+
+h1, h2, h3, h4, h5, h6, .display-4, .display-5 {
+    color: #ffffff !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.text-muted {
+    color: #9ba4b5 !important;
+}
+
+.navbar-gradient {
+    background: linear-gradient(135deg, rgba(43, 50, 178, 0.85) 0%, rgba(20, 136, 204, 0.85) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
 .card {
-    border-radius: 10px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    color: #ffffff;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, background 0.4s ease;
 }
 
 .card:hover {
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 15px 45px 0 rgba(0, 0, 0, 0.5) !important;
 }
 
 .metric-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px) scale(1.02);
 }
+
+/* Glowing Neon Accents */
+.metric-card-inventory { border-top: 4px solid #00d2ff !important; box-shadow: 0 0 20px rgba(0, 210, 255, 0.15); }
+.metric-card-lowstock { border-top: 4px solid #ff416c !important; box-shadow: 0 0 20px rgba(255, 65, 108, 0.15); }
+.metric-card-value { border-top: 4px solid #00f2fe !important; box-shadow: 0 0 20px rgba(0, 242, 254, 0.15); }
+.metric-card-revenue { border-top: 4px solid #00b09b !important; box-shadow: 0 0 20px rgba(0, 176, 155, 0.15); }
 
 .btn {
     transition: all 0.3s ease;
 }
 
 .table-responsive {
-    border-radius: 10px;
+    border-radius: 15px;
     overflow: hidden;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
 .table {
-    border-radius: 10px;
+    border-radius: 15px;
+    background-color: transparent !important;
+    color: #e0e6ed;
 }
 
-tr {
-    transition: background-color 0.2s ease;
+.table thead th {
+    color: #ffffff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.table td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+tbody tr {
+    transition: all 0.3s ease;
+}
+
+tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    transform: scale(1.01);
+}
+
+.form-control, .form-select {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff !important;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    border-color: #00d2ff;
+    box-shadow: 0 0 0 0.25rem rgba(0, 210, 255, 0.25);
+    color: #ffffff;
+}
+
+.form-floating label {
+    color: #9ba4b5 !important;
+}
+
+.form-floating > .form-control:focus ~ label::after, 
+.form-floating > .form-control:not(:placeholder-shown) ~ label::after {
+    background-color: transparent !important;
 }
